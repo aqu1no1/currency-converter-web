@@ -18,12 +18,16 @@
     "pr": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:cov && pnpm build"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.104.2",
+    "axios": "^1.20.0",
     "clsx": "^2.1.1",
+    "decimal.js": "^10.6.0",
     "i18next": "^26.4.5",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-i18next": "^17.0.16",
-    "tailwind-merge": "^3.7.0"
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

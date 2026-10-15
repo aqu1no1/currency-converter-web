@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       '@pages': fromRoot('./src/pages'),
       '@components': fromRoot('./src/components'),
+      '@contexts': fromRoot('./src/contexts'),
       '@hooks': fromRoot('./src/hooks'),
       '@services': fromRoot('./src/services'),
       '@theme': fromRoot('./src/theme'),
