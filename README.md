@@ -19,18 +19,22 @@ pnpm dev
 
 ## Comandos
 
-| Comando          | O que faz                                |
-| ---------------- | ---------------------------------------- |
-| `pnpm dev`       | servidor de desenvolvimento do Vite      |
-| `pnpm build`     | typecheck + build de produção em `dist/` |
-| `pnpm preview`   | serve o `dist/` localmente               |
-| `pnpm typecheck` | checagem de tipos com o `tsc`            |
+| Comando          | O que faz                                              |
+| ---------------- | ------------------------------------------------------ |
+| `pnpm dev`       | servidor de desenvolvimento do Vite                    |
+| `pnpm build`     | typecheck + build de produção em `dist/`               |
+| `pnpm preview`   | serve o `dist/` localmente                             |
+| `pnpm lint`      | oxlint (com `lint:fix` para corrigir)                  |
+| `pnpm format`    | formata com o oxfmt (`format:check` só confere)        |
+| `pnpm typecheck` | checagem de tipos do app, da config e dos testes       |
+| `pnpm test`      | testes com o Vitest (`test:watch`, `test:cov`)         |
+| `pnpm pr`        | roda tudo que o CI roda; veja [docs/CI.md](docs/CI.md) |
 
 ## Variáveis de ambiente
 
-| Variável       | Descrição                         |
-| -------------- | --------------------------------- |
-| `VITE_API_URL` | URL base da api-converter         |
+| Variável       | Descrição                 |
+| -------------- | ------------------------- |
+| `VITE_API_URL` | URL base da api-converter |
 
 Toda variável nova entra no `.env.example` e no `src/types/env.d.ts`. Variáveis `VITE_*` vão para o bundle, então nada secreto nelas.
 
