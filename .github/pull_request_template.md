@@ -70,7 +70,7 @@ Marque uma opção:
 
 ### Variáveis de ambiente (se aplicável)
 
-- [ ] Adicionei ao `.env.example` e ao `types/env.d.ts`
+- [ ] Adicionei ao `.env.example` e ao `src/types/env.d.ts`
 - [ ] Nada secreto em variável `VITE_*`
 
 ---
