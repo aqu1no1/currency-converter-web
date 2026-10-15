@@ -40,5 +40,5 @@
       "@test/*": ["./test/*"]
     }
   },
-  "include": ["src", "types"]
+  "include": ["src"]
 }

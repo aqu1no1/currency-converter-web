@@ -32,7 +32,7 @@ pnpm dev
 | -------------- | --------------------------------- |
 | `VITE_API_URL` | URL base da api-converter         |
 
-Toda variável nova entra no `.env.example` e no `types/env.d.ts`. Variáveis `VITE_*` vão para o bundle, então nada secreto nelas.
+Toda variável nova entra no `.env.example` e no `src/types/env.d.ts`. Variáveis `VITE_*` vão para o bundle, então nada secreto nelas.
 
 ## Estrutura
 
@@ -48,6 +48,7 @@ src/
 ├── dtos/ · models/ · interfaces/ · enums/ · utils/
 ├── lib/          # query-client, i18n
 ├── locales/      # pt-BR, en, es
+├── types/        # declarações globais (env.d.ts)
 └── assets/
 public/           # favicons, manifest, og-image
 test/             # unit, components, integration, setup, fixtures, utils
