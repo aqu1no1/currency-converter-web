@@ -1,7 +1,9 @@
 import { Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
+import { ErrorBoundary } from '@components/feedback/ErrorBoundary';
+import { UnexpectedError } from '@components/feedback/UnexpectedError';
 import { SiteFooter } from '@components/layout/SiteFooter';
 import { SiteHeader } from '@components/layout/SiteHeader';
 import { useApi } from '@contexts/ApiProvider';
@@ -23,6 +25,7 @@ const MAIN_ID = 'main-content';
  */
 export function Layout() {
   const { t } = useTranslation();
+  const location = useLocation();
   const api = useApi();
   const syncService = useMemo(() => new SyncService(api), [api]);
   const syncStatus = useSyncStatus(syncService);
@@ -39,9 +42,11 @@ export function Layout() {
         <SiteHeader />
       </div>
       <main id={MAIN_ID} tabIndex={-1} className="flex flex-1 flex-col focus:outline-none">
-        <Suspense fallback={null}>
-          <Outlet />
-        </Suspense>
+        <ErrorBoundary key={location.pathname} fallback={<UnexpectedError />}>
+          <Suspense fallback={null}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <SiteFooter latestRateDate={syncStatus.data?.latestRateDate} />
     </div>

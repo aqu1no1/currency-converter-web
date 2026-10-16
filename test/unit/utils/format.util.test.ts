@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatDate, formatMoney, formatRate, formatUnitPrice } from '@utils/format.util';
+import {
+  formatDate,
+  formatDateTime,
+  formatInteger,
+  formatMoney,
+  formatPercent,
+  formatRate,
+  formatShortDate,
+  formatTime,
+  formatUnitPrice,
+} from '@utils/format.util';
 
 const nbsp = /[  ]/g;
 
@@ -28,5 +38,23 @@ describe('format.util', () => {
   it('formats rate dates in UTC, so the day never shifts', () => {
     expect(formatDate('2026-09-28', 'pt-BR')).toBe('28/09/2026');
     expect(formatDate('2026-09-28', 'en')).toBe('09/28/2026');
+  });
+
+  it('formats short dates without the year', () => {
+    expect(formatShortDate('2026-09-28', 'pt-BR')).toBe('28/09');
+    expect(formatShortDate('2026-09-28', 'en')).toBe('09/28');
+  });
+
+  it('formats date and time in the local time zone', () => {
+    const date = new Date(2026, 8, 29, 6, 5);
+
+    expect(formatDateTime(date, 'pt-BR')).toBe('29/09/2026, 06:05');
+    expect(formatTime(date, 'pt-BR')).toBe('06:05');
+  });
+
+  it('formats integers and percentages in the given language', () => {
+    expect(formatInteger(88400, 'pt-BR')).toBe('88.400');
+    expect(formatInteger(88400, 'en')).toBe('88,400');
+    expect(formatPercent(0.2345, 'pt-BR')).toBe('0,23');
   });
 });

@@ -19,6 +19,13 @@ export const errors = {
     syncFailed:
       '<strong>A última atualização falhou.</strong> As cotações abaixo são de {{date}} e serão atualizadas na próxima sincronização.',
   },
+  unexpectedError: {
+    label: 'Erro inesperado',
+    title: 'Algo deu errado',
+    description:
+      'Tivemos um problema ao abrir esta página. Tente de novo; se continuar, confira o status da sincronização.',
+    goHome: 'Ir para o início',
+  },
   notFound: {
     label: 'Erro 404',
     title: 'Página não encontrada',

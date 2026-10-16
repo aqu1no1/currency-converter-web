@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { Card } from '@components/cards/Card';
+import { cn } from '@utils/cn.util';
 
 type StatCardProps = {
   /** Rótulo pequeno no topo, como "Cotações disponíveis até". */
@@ -14,6 +15,9 @@ type StatCardProps = {
 
   /** Conteúdo entre o rótulo e o valor, como um `StatusBadge`. */
   children?: ReactNode;
+
+  /** Classes extras do valor, como um tamanho menor para data e hora. */
+  valueClassName?: string;
 };
 
 /**
@@ -24,12 +28,19 @@ type StatCardProps = {
  * <StatCard label={t('status.availableUntil')} value={formatDate(date)} description={t('status.delay')} />
  * ```
  */
-export function StatCard({ label, value, description, children }: StatCardProps) {
+export function StatCard({ label, value, description, children, valueClassName }: StatCardProps) {
   return (
     <Card aria-label={label} className="flex flex-col gap-2.5 p-6">
       <span className="text-sm text-muted">{label}</span>
       {children}
-      <span className="font-display text-3xl leading-tight font-semibold text-title">{value}</span>
+      <span
+        className={cn(
+          'font-display text-3xl leading-tight font-semibold text-title',
+          valueClassName,
+        )}
+      >
+        {value}
+      </span>
       {description ? <span className="text-body-sm text-muted">{description}</span> : null}
     </Card>
   );
