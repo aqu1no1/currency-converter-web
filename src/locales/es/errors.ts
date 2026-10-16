@@ -3,6 +3,22 @@ export const errors = {
   timeout: 'El servidor tardó en responder. Inténtalo de nuevo.',
   invalidResponse: 'Recibimos una respuesta inesperada del servidor.',
   unexpected: 'Algo salió mal. Inténtalo de nuevo.',
+  states: {
+    unavailable: {
+      title: 'No fue posible cargar las cotizaciones',
+      description:
+        'El servidor no respondió. Puede ser algo rápido: inténtalo de nuevo en unos instantes o revisa el estado de la sincronización.',
+    },
+    notReady: {
+      title: 'Las cotizaciones están en camino',
+      description:
+        'La primera actualización aún no terminó, así que todavía no hay cotizaciones para convertir. Vuelve en unos minutos.',
+    },
+    refresh: 'Actualizar',
+    seeStatus: 'Ver estado',
+    syncFailed:
+      '<strong>La última actualización falló.</strong> Las cotizaciones de abajo son del {{date}} y se actualizarán en la próxima sincronización.',
+  },
   notFound: {
     label: 'Error 404',
     title: 'Página no encontrada',

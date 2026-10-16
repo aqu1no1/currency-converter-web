@@ -15,3 +15,10 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Tema claro e escuro com o seletor claro / escuro / automático no topo. O automático segue o tema do sistema, a escolha fica salva e o tema certo já aparece ao abrir o site, sem piscar.
 - Cabeçalho e rodapé com a navegação entre as páginas (Início, Conversor, Cotações do dia, Histórico e Status), link para pular ao conteúdo e página 404.
 - Página inicial com as cotações de hoje em reais, a faixa de cotações, o que dá para fazer no site, como as cotações chegam e as moedas suportadas.
+- Página Conversor: valor com vírgula ou ponto, moedas De e Para com botão de inverter, resultado com as taxas direta e inversa e a data da cotação, conversões frequentes e link compartilhável com o valor e as moedas.
+- Página Cotações do dia: escolha da moeda base, tabela com quanto 1 unidade vale em cada moeda e o inverso, e clique na linha para abrir o histórico do par.
+- Avisos quando a API está fora do ar, quando as cotações ainda não foram sincronizadas e quando a última sincronização falhou.
+
+### Fixed
+
+- Tabelas quebravam a página no navegador por causa da versão CommonJS do `react-data-table-component`.

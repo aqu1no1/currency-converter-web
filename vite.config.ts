@@ -28,6 +28,9 @@ export default defineConfig({
       '@locales': fromRoot('./src/locales'),
       '@assets': fromRoot('./src/assets'),
       '@test': fromRoot('./test'),
+      'react-data-table-component': fromRoot(
+        './node_modules/react-data-table-component/dist/index.es.js',
+      ),
     },
   },
 });

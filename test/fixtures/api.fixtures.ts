@@ -30,6 +30,18 @@ export const latestRatesFixture = {
   rates: { USD: 0.2, EUR: 0.16, GBP: 0.125, JPY: 30.32, ARS: 250 },
 };
 
+export const latestRatesUsdFixture = {
+  base: 'USD',
+  date: '2026-09-28',
+  rates: { EUR: 0.8, BRL: 5, GBP: 0.75, JPY: 150, ARS: 1450 },
+};
+
+export const latestRatesEurFixture = {
+  base: 'EUR',
+  date: '2026-09-28',
+  rates: { USD: 1.25, BRL: 6.25 },
+};
+
 export const historyFixture = {
   from: 'USD',
   to: 'BRL',
@@ -47,6 +59,18 @@ export const syncStatusFixture = {
     finishedAt: '2026-09-29T09:00:02.000Z',
     rowsInserted: 45,
     error: null,
+  },
+  latestRateDate: '2026-09-28',
+};
+
+export const syncStatusFailedFixture = {
+  lastRun: {
+    type: 'DAILY',
+    status: 'FAILED',
+    startedAt: '2026-09-29T09:00:00.000Z',
+    finishedAt: '2026-09-29T09:00:10.000Z',
+    rowsInserted: 0,
+    error: 'timeout no provedor',
   },
   latestRateDate: '2026-09-28',
 };

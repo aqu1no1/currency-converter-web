@@ -51,4 +51,16 @@ describe('useConvert', () => {
     await waitFor(() => expect(result.current.data?.amount).toBe(200));
     expect(signals[0]!.aborted).toBe(true);
   });
+
+  it('does not call the api without params', async () => {
+    const api = createFakeApiService();
+
+    const { result } = renderHookWithProviders(
+      () => useConvert(new ExchangeRateService(api), null),
+      { api },
+    );
+
+    await waitFor(() => expect(result.current.fetchStatus).toBe('idle'));
+    expect(api.get).not.toHaveBeenCalled();
+  });
 });
