@@ -9,9 +9,8 @@ import '@styles/index.css';
 
 import { ApiProvider } from '@contexts/ApiProvider';
 import { queryClient } from '@lib/query-client';
+import { App } from '@routes/App';
 import { ThemeProvider } from '@theme/ThemeProvider';
-
-import { App } from './App';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

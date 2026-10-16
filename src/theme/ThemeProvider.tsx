@@ -35,7 +35,7 @@ function saveScheme(scheme: ThemeScheme) {
   try {
     localStorage.setItem(STORAGE_KEYS.theme, scheme);
   } catch {
-    // Sem localStorage (modo privado ou bloqueado): a escolha vale só nesta visita.
+    return;
   }
 }
 
@@ -77,7 +77,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     root.dataset.theme = theme;
     root.style.colorScheme = theme;
 
-    // A cor da barra do navegador vem do CSS (--browser-bar), para não ter hex fora do index.css.
     const browserBar = getComputedStyle(root).getPropertyValue('--browser-bar').trim();
     if (browserBar) {
       document.querySelector('meta[name="theme-color"]')?.setAttribute('content', browserBar);

@@ -15,24 +15,28 @@ function renderSwitcher() {
 }
 
 describe('ThemeSwitcher', () => {
-  it('marks the active scheme with aria-pressed', () => {
+  it('starts on automatic and offers light next', () => {
     renderSwitcher();
 
-    expect(screen.getByRole('group', { name: 'Tema' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Automático' })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
-    expect(screen.getByRole('button', { name: 'Escuro' })).toHaveAttribute('aria-pressed', 'false');
+    expect(
+      screen.getByRole('button', { name: 'Tema: Automático. Mudar para Claro' }),
+    ).toBeInTheDocument();
   });
 
-  it('switches the theme and saves the choice', async () => {
+  it('cycles light → dark → automatic and saves the choice', async () => {
     renderSwitcher();
+    const button = screen.getByRole('button');
 
-    await userEvent.click(screen.getByRole('button', { name: 'Escuro' }));
+    await userEvent.click(button);
+    expect(button).toHaveAccessibleName('Tema: Claro. Mudar para Escuro');
+    expect(document.documentElement.dataset.theme).toBe('light');
 
-    expect(screen.getByRole('button', { name: 'Escuro' })).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(button);
+    expect(button).toHaveAccessibleName('Tema: Escuro. Mudar para Automático');
     expect(document.documentElement.dataset.theme).toBe('dark');
     expect(localStorage.getItem(STORAGE_KEYS.theme)).toBe('dark');
+
+    await userEvent.click(button);
+    expect(button).toHaveAccessibleName('Tema: Automático. Mudar para Claro');
   });
 });

@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 
-/* dark: só para exceções nos componentes base; segue o data-theme do <html> */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 :root {
@@ -19,13 +18,13 @@
   --accent-text: #1e7a52;
   --warning-bg: #fdecdd;
   --warning-text: #8a3a0a;
+  --warning-border: #f2c9a6;
   --success-bg: #e1f2e7;
   --success-text: #14532d;
   --status-ok: #1e7a52;
   --status-fail: #c2410c;
   --shadow: rgba(15, 61, 46, 0.5);
   --focus-ring: rgba(30, 122, 82, 0.18);
-  /* Barra do navegador (<meta name="theme-color">): verde do cabeçalho no claro */
   --browser-bar: #0f3d2e;
 }
 
@@ -45,6 +44,7 @@
   --accent-text: #6fd3a2;
   --warning-bg: #3a2316;
   --warning-text: #f7b98a;
+  --warning-border: #5a3520;
   --success-bg: #173a2d;
   --success-text: #9fe1cb;
   --status-ok: #4fc38a;
@@ -70,6 +70,7 @@
   --color-accent-text: var(--accent-text);
   --color-warning: var(--warning-bg);
   --color-warning-text: var(--warning-text);
+  --color-warning-line: var(--warning-border);
   --color-success: var(--success-bg);
   --color-success-text: var(--success-text);
   --color-status-ok: var(--status-ok);
@@ -79,9 +80,13 @@
 }
 
 @theme {
-  /* Marca: fixa nos dois temas (cabeçalho, rodapé e cards de destaque) */
   --color-brand: #0f3d2e;
   --color-mint: #9fe1cb;
+  --color-on-brand: #cfe3d6;
+
+  --container-content: 1120px;
+
+  --breakpoint-tablet: 720px;
 
   --font-display: 'Bricolage Grotesque Variable', sans-serif;
   --font-sans: 'Instrument Sans Variable', system-ui, sans-serif;
@@ -89,10 +94,76 @@
   --radius-card: 24px;
   --radius-list: 20px;
   --radius-control: 12px;
+  --radius-chip: 10px;
+
+  --text-body-sm: 15px;
+  --text-body-lg: 17px;
+  --text-hero: 64px;
+  --text-page-title: 46px;
+  --text-section-title: 36px;
+
+  --animate-ticker: ticker 45s linear infinite;
+  --animate-float: float 8s ease-in-out infinite;
+  --animate-drift: drift 14s ease-in-out infinite;
+  --animate-flow: flow 5s linear infinite;
+
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0);
+    }
+    50% {
+      transform: translateY(-16px) rotate(10deg);
+    }
+  }
+
+  @keyframes flow {
+    to {
+      stroke-dashoffset: -160;
+    }
+  }
+
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(12px, -14px);
+    }
+  }
+}
+
+@utility paused {
+  animation-play-state: paused;
 }
 
 @layer base {
   body {
     @apply bg-page font-sans text-ink;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  [data-on-brand] :focus-visible {
+    outline-color: var(--color-mint);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 }

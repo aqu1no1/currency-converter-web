@@ -8,7 +8,7 @@ import { createFakeApiService } from '@test/utils/fake-api.service';
 describe('CurrencyService', () => {
   it('lists the currencies from /currencies', async () => {
     const api = createFakeApiService();
-    api.get.mockResolvedValueOnce(currenciesFixture);
+    api.get.mockResolvedValueOnce({ data: currenciesFixture });
     const signal = new AbortController().signal;
 
     const currencies = await new CurrencyService(api).list(signal);
@@ -19,7 +19,7 @@ describe('CurrencyService', () => {
 
   it('rejects a response in an unexpected shape', async () => {
     const api = createFakeApiService();
-    api.get.mockResolvedValueOnce([{ code: 'USD' }]);
+    api.get.mockResolvedValueOnce({ data: [{ code: 'USD' }] });
 
     await expect(new CurrencyService(api).list()).rejects.toMatchObject({
       code: 'INVALID_RESPONSE',

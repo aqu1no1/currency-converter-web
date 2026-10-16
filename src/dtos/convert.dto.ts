@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { currencyCodeSchema, dateOnlySchema } from './common.dto';
+import { currencyCodeSchema, dateOnlySchema } from '@dtos/common.dto';
 
 export const convertSchema = z.object({
   from: currencyCodeSchema,

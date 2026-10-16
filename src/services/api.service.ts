@@ -1,14 +1,7 @@
-import axios, {
-  type AxiosInstance,
-  type CreateAxiosDefaults,
-  type InternalAxiosRequestConfig,
-  isAxiosError,
-  isCancel,
-} from 'axios';
+import axios, { type InternalAxiosRequestConfig, isAxiosError, isCancel } from 'axios';
 
 import { TIME_IN_MS } from '@constants/time.constants';
 import { ApiError } from '@interfaces/api-error.interface';
-import type { HttpClient, RequestOptions } from '@interfaces/http-client.interface';
 import { i18n } from '@lib/i18n';
 
 const REQUEST_TIMEOUT = 10 * TIME_IN_MS.SECOND;
@@ -54,57 +47,19 @@ export function toApiError(error: unknown): ApiError {
   });
 }
 
-function withLanguage(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+export function withLanguage(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
   config.headers.set('Accept-Language', i18n.language);
   return config;
 }
 
-function rejectAsApiError(error: unknown): Promise<never> {
+export function rejectAsApiError(error: unknown): Promise<never> {
   return Promise.reject(isCancel(error) ? error : toApiError(error));
 }
 
-export class ApiService implements HttpClient {
-  private static instance: ApiService | undefined;
+export const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: REQUEST_TIMEOUT,
+});
 
-  private readonly client: AxiosInstance;
-
-  constructor(config: CreateAxiosDefaults = {}) {
-    this.client = axios.create({
-      baseURL: import.meta.env.VITE_API_URL,
-      timeout: REQUEST_TIMEOUT,
-      ...config,
-    });
-    this.client.interceptors.request.use(withLanguage);
-    this.client.interceptors.response.use((response) => response, rejectAsApiError);
-  }
-
-  static getInstance(): ApiService {
-    ApiService.instance ??= new ApiService();
-    return ApiService.instance;
-  }
-
-  async get(url: string, options?: RequestOptions): Promise<unknown> {
-    const { data } = await this.client.get<unknown>(url, options);
-    return data;
-  }
-
-  async post(url: string, body?: unknown, options?: RequestOptions): Promise<unknown> {
-    const { data } = await this.client.post<unknown>(url, body, options);
-    return data;
-  }
-
-  async patch(url: string, body?: unknown, options?: RequestOptions): Promise<unknown> {
-    const { data } = await this.client.patch<unknown>(url, body, options);
-    return data;
-  }
-
-  async put(url: string, body?: unknown, options?: RequestOptions): Promise<unknown> {
-    const { data } = await this.client.put<unknown>(url, body, options);
-    return data;
-  }
-
-  async delete(url: string, options?: RequestOptions): Promise<unknown> {
-    const { data } = await this.client.delete<unknown>(url, options);
-    return data;
-  }
-}
+apiClient.interceptors.request.use(withLanguage);
+apiClient.interceptors.response.use((response) => response, rejectAsApiError);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatDate, formatMoney, formatRate } from '@utils/format.util';
+import { formatDate, formatMoney, formatRate, formatUnitPrice } from '@utils/format.util';
 
 const nbsp = /[  ]/g;
 
@@ -8,6 +8,12 @@ describe('format.util', () => {
   it('formats money in the given language', () => {
     expect(formatMoney(1234.5, 'BRL', 'pt-BR').replace(nbsp, ' ')).toBe('R$ 1.234,50');
     expect(formatMoney(1234.5, 'USD', 'en')).toBe('$1,234.50');
+  });
+
+  it('formats unit prices below 0.10 with 4 decimals', () => {
+    expect(formatUnitPrice(5.19, 'BRL', 'pt-BR').replace(nbsp, ' ')).toBe('R$ 5,19');
+    expect(formatUnitPrice(0.73, 'BRL', 'pt-BR').replace(nbsp, ' ')).toBe('R$ 0,73');
+    expect(formatUnitPrice(0.0036, 'BRL', 'pt-BR').replace(nbsp, ' ')).toBe('R$ 0,0036');
   });
 
   it('formats rates with 4 digits', () => {

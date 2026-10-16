@@ -1,10 +1,29 @@
-import { mdiThemeLightDark, mdiWeatherNight, mdiWeatherSunny } from '@mdi/js';
+import {
+  mdiAlertCircleOutline,
+  mdiArrowRight,
+  mdiCheckCircle,
+  mdiCloseCircle,
+  mdiCloudOffOutline,
+  mdiRefresh,
+  mdiSwapHorizontal,
+  mdiSync,
+  mdiThemeLightDark,
+  mdiWeatherNight,
+  mdiWeatherSunny,
+} from '@mdi/js';
 
-/** Ícones do site, com as mesmas chaves e nomes do MaterialCommunityIcons do app. */
 export const ICONS = {
   appearance: mdiThemeLightDark,
   themeLight: mdiWeatherSunny,
   themeDark: mdiWeatherNight,
+  arrowRight: mdiArrowRight,
+  swap: mdiSwapHorizontal,
+  refresh: mdiRefresh,
+  alert: mdiAlertCircleOutline,
+  offline: mdiCloudOffOutline,
+  success: mdiCheckCircle,
+  failed: mdiCloseCircle,
+  running: mdiSync,
 } as const;
 
 export type IconName = keyof typeof ICONS;

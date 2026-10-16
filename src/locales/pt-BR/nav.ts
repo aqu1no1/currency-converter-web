@@ -1,4 +1,5 @@
 export const nav = {
+  skipToContent: 'Pular para o conteúdo',
   main: 'Principal',
   footer: 'Navegação do rodapé',
   footerNavigation: 'Navegação',
@@ -9,6 +10,8 @@ export const nav = {
     en: 'Inglês',
     es: 'Espanhol',
   },
+  languageButton: 'Idioma: {{current}}. Mudar para {{next}}',
+  themeButton: 'Tema: {{current}}. Mudar para {{next}}',
   theme: 'Tema',
   themes: {
     light: 'Claro',

@@ -1,18 +1,19 @@
+import type { AxiosInstance } from 'axios';
+
 import { type CurrencyDto, currenciesSchema } from '@dtos/currency.dto';
-import type { HttpClient } from '@interfaces/http-client.interface';
 import { parseResponse } from '@utils/parse-response.util';
 
 export class CurrencyService {
-  private readonly baseUrl = '/currencies';
+  public readonly baseUrl = '/currencies';
 
-  private readonly api: HttpClient;
+  private readonly api: AxiosInstance;
 
-  constructor(api: HttpClient) {
+  constructor(api: AxiosInstance) {
     this.api = api;
   }
 
   async list(signal?: AbortSignal): Promise<CurrencyDto[]> {
-    const data = await this.api.get(this.baseUrl, { signal });
-    return parseResponse(currenciesSchema, data);
+    const response = await this.api.get<unknown>(this.baseUrl, { signal });
+    return parseResponse(currenciesSchema, response.data);
   }
 }

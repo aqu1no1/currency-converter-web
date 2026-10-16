@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@pages': fromRoot('./src/pages'),
+      '@routes': fromRoot('./src/routes'),
       '@components': fromRoot('./src/components'),
       '@contexts': fromRoot('./src/contexts'),
       '@hooks': fromRoot('./src/hooks'),

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { dateOnlySchema, dateTimeSchema } from './common.dto';
+import { dateOnlySchema, dateTimeSchema } from '@dtos/common.dto';
 
 export const syncTypeSchema = z.enum(['DAILY', 'BACKFILL']);
 

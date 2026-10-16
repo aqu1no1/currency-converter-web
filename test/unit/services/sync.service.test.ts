@@ -7,7 +7,7 @@ import { createFakeApiService } from '@test/utils/fake-api.service';
 describe('SyncService', () => {
   it('gets the sync status from /sync/status', async () => {
     const api = createFakeApiService();
-    api.get.mockResolvedValueOnce(syncStatusFixture);
+    api.get.mockResolvedValueOnce({ data: syncStatusFixture });
 
     const status = await new SyncService(api).status();
 
@@ -17,7 +17,7 @@ describe('SyncService', () => {
 
   it('accepts a status before the first sync', async () => {
     const api = createFakeApiService();
-    api.get.mockResolvedValueOnce({ lastRun: null, latestRateDate: null });
+    api.get.mockResolvedValueOnce({ data: { lastRun: null, latestRateDate: null } });
 
     await expect(new SyncService(api).status()).resolves.toEqual({
       lastRun: null,
@@ -27,9 +27,9 @@ describe('SyncService', () => {
 
   it('lists the latest runs from /sync with pagination', async () => {
     const api = createFakeApiService();
-    api.get.mockResolvedValueOnce(syncRunsFixture);
+    api.get.mockResolvedValueOnce({ data: syncRunsFixture });
 
-    const page = await new SyncService(api).list({ perPage: 4 });
+    const page = await new SyncService(api).get({ perPage: 4 });
 
     expect(api.get).toHaveBeenCalledWith('/sync', { params: { perPage: 4 }, signal: undefined });
     expect(page.data).toHaveLength(3);

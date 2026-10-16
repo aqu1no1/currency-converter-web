@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
 import { currentLanguage, type Language, LANGUAGES, setLanguage } from '@lib/i18n';
-import { cn } from '@utils/cn.util';
 
 const SHORT_LABELS: Record<Language, string> = {
   'pt-BR': 'PT',
@@ -9,11 +8,15 @@ const SHORT_LABELS: Record<Language, string> = {
   es: 'ES',
 };
 
+function nextLanguage(language: Language): Language {
+  return LANGUAGES[(LANGUAGES.indexOf(language) + 1) % LANGUAGES.length]!;
+}
+
 /**
- * Botões para trocar o idioma do site (PT / EN / ES).
+ * Botão único de idioma no cabeçalho: mostra a sigla do idioma atual (PT, EN, ES)
+ * e, a cada clique, passa para o próximo.
  *
- * O idioma ativo fica com `aria-pressed`. A troca vale na hora para todos os
- * textos, números e datas e fica salva para a próxima visita.
+ * A troca vale na hora para textos, números e datas e fica salva para a próxima visita.
  *
  * @example
  * ```tsx
@@ -22,32 +25,22 @@ const SHORT_LABELS: Record<Language, string> = {
  */
 export function LanguageSwitcher() {
   const { t } = useTranslation();
-  const activeLanguage = currentLanguage();
+  const language = currentLanguage();
+  const next = nextLanguage(language);
+  const label = t('nav.languageButton', {
+    current: t(`nav.languages.${language}`),
+    next: t(`nav.languages.${next}`),
+  });
 
   return (
-    <div role="group" aria-label={t('nav.language')} className="flex gap-1">
-      {LANGUAGES.map((language) => {
-        const isActive = language === activeLanguage;
-
-        return (
-          <button
-            key={language}
-            type="button"
-            lang={language}
-            title={t(`nav.languages.${language}`)}
-            aria-pressed={isActive}
-            onClick={() => void setLanguage(language)}
-            className={cn(
-              'rounded-control px-2 py-1 text-sm font-semibold',
-              isActive
-                ? 'bg-brand text-white dark:bg-mint dark:text-brand'
-                : 'text-muted hover:text-ink',
-            )}
-          >
-            {SHORT_LABELS[language]}
-          </button>
-        );
-      })}
-    </div>
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      onClick={() => void setLanguage(next)}
+      className="min-h-11 min-w-11 rounded-chip border border-white/35 text-sm font-semibold text-white transition-colors hover:bg-white/12"
+    >
+      {SHORT_LABELS[language]}
+    </button>
   );
 }

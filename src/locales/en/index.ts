@@ -1,14 +1,13 @@
+import { common } from '@locales/en/common';
+import { converter } from '@locales/en/converter';
+import { currencies } from '@locales/en/currencies';
+import { errors } from '@locales/en/errors';
+import { history } from '@locales/en/history';
+import { home } from '@locales/en/home';
+import { nav } from '@locales/en/nav';
+import { rates } from '@locales/en/rates';
+import { status } from '@locales/en/status';
 import type { Translations } from '@locales/pt-BR';
-
-import { common } from './common';
-import { converter } from './converter';
-import { currencies } from './currencies';
-import { errors } from './errors';
-import { history } from './history';
-import { home } from './home';
-import { nav } from './nav';
-import { rates } from './rates';
-import { status } from './status';
 
 export const en: Translations = {
   common,
