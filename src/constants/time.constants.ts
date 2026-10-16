@@ -27,3 +27,5 @@ export const TIME_IN_MINUTES = {
   MONTH: 30 * 24 * 60,
   YEAR: 365 * 24 * 60,
 } as const;
+
+export const INPUT_DEBOUNCE_MS = 300;

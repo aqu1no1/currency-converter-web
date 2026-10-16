@@ -15,6 +15,9 @@ type ErrorStateProps = {
   /** Mostra o botão "Tentar de novo". */
   onRetry?: () => void;
 
+  /** Texto do botão no lugar de "Tentar de novo", como "Atualizar". */
+  retryLabel?: string;
+
   /** Ação secundária ao lado, como o link "Ver status". */
   secondaryAction?: ReactNode;
 };
@@ -32,6 +35,7 @@ export function ErrorState({
   description,
   icon = 'offline',
   onRetry,
+  retryLabel,
   secondaryAction,
 }: ErrorStateProps) {
   const { t } = useTranslation();
@@ -53,7 +57,7 @@ export function ErrorState({
           {onRetry ? (
             <Button onClick={onRetry}>
               <Icon name="refresh" size={20} />
-              {t('common.retry')}
+              {retryLabel ?? t('common.retry')}
             </Button>
           ) : null}
           {secondaryAction}

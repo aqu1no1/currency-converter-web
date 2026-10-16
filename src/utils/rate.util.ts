@@ -20,3 +20,20 @@ export function valuesInBase(
     return rate ? [{ code, value: invertRate(rate) }] : [];
   });
 }
+
+export type RateRow = {
+  code: CurrencyCode;
+  rate: number;
+  inverse: number;
+};
+
+export function ratesTable(
+  rates: Partial<Record<string, number>>,
+  base: CurrencyCode,
+  codes: readonly CurrencyCode[],
+): RateRow[] {
+  return codes.flatMap((code) => {
+    const rate = rates[code];
+    return code !== base && rate ? [{ code, rate, inverse: invertRate(rate) }] : [];
+  });
+}

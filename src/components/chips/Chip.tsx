@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes } from 'react';
 import { cn } from '@utils/cn.util';
 
 type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-pressed'> & {
-  /** Se o chip está selecionado; vira `aria-pressed`. */
+  /** Se o chip está selecionado; vira `aria-pressed`. Sem ele, o chip é só um atalho. */
   selected?: boolean;
 
   /** `square` para moedas-base, `pill` para atalhos como as conversões frequentes. */
@@ -25,7 +25,7 @@ const SHAPES = {
  * <Chip selected={base === 'BRL'} onClick={() => setBase('BRL')}>BRL</Chip>
  * ```
  */
-export function Chip({ selected = false, shape = 'square', className, ...props }: ChipProps) {
+export function Chip({ selected, shape = 'square', className, ...props }: ChipProps) {
   return (
     <button
       type="button"

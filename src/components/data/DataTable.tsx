@@ -2,6 +2,7 @@ import ReactDataTable, { type TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 
 import { TABLE_STYLES } from '@components/data/table-styles';
+import { TableSkeleton } from '@components/data/TableSkeleton';
 import { cn } from '@utils/cn.util';
 
 type DataTableProps<Row> = {
@@ -15,6 +16,12 @@ type DataTableProps<Row> = {
 
   /** Campo único de cada linha, como `code` ou `id`. */
   keyField?: string;
+
+  /** Mostra linhas pulsando no lugar da tabela. */
+  isPending?: boolean;
+
+  /** Clique numa linha; também deixa o cursor de link nas linhas. */
+  onRowClicked?: (row: Row) => void;
 
   className?: string;
 };
@@ -32,6 +39,8 @@ export function DataTable<Row>({
   columns,
   rows,
   keyField = 'id',
+  isPending = false,
+  onRowClicked,
   className,
 }: DataTableProps<Row>) {
   const { t } = useTranslation();
@@ -44,6 +53,10 @@ export function DataTable<Row>({
         data={rows}
         keyField={keyField}
         customStyles={TABLE_STYLES}
+        progressPending={isPending}
+        progressComponent={<TableSkeleton />}
+        onRowClicked={onRowClicked}
+        pointerOnHover={Boolean(onRowClicked)}
         noDataComponent={t('common.table.noData')}
         highlightOnHover
         responsive

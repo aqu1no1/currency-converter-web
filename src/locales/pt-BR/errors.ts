@@ -3,6 +3,22 @@ export const errors = {
   timeout: 'O servidor demorou para responder. Tente de novo.',
   invalidResponse: 'Recebemos uma resposta inesperada do servidor.',
   unexpected: 'Algo deu errado. Tente de novo.',
+  states: {
+    unavailable: {
+      title: 'Não foi possível carregar as cotações',
+      description:
+        'O servidor não respondeu. Pode ser algo rápido: tente de novo em instantes ou confira o status da sincronização.',
+    },
+    notReady: {
+      title: 'As cotações estão a caminho',
+      description:
+        'A primeira atualização ainda não terminou, então ainda não há cotações para converter. Volte em alguns minutos.',
+    },
+    refresh: 'Atualizar',
+    seeStatus: 'Ver status',
+    syncFailed:
+      '<strong>A última atualização falhou.</strong> As cotações abaixo são de {{date}} e serão atualizadas na próxima sincronização.',
+  },
   notFound: {
     label: 'Erro 404',
     title: 'Página não encontrada',
