@@ -1,1 +1,98 @@
 @import 'tailwindcss';
+
+/* dark: só para exceções nos componentes base; segue o data-theme do <html> */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  --bg-page: #f3f7f4;
+  --surface: #ffffff;
+  --surface-alt: #f4f8f5;
+  --mint-soft: #e1f2e7;
+  --border: #dce6df;
+  --border-strong: #b9ccbf;
+  --divider: #edf2ee;
+  --text: #14211b;
+  --title: #0f3d2e;
+  --text-muted: #4f5f57;
+  --text-faint: #8a9a91;
+  --accent: #1e7a52;
+  --accent-text: #1e7a52;
+  --warning-bg: #fdecdd;
+  --warning-text: #8a3a0a;
+  --success-bg: #e1f2e7;
+  --success-text: #14532d;
+  --status-ok: #1e7a52;
+  --status-fail: #c2410c;
+  --shadow: rgba(15, 61, 46, 0.5);
+  --focus-ring: rgba(30, 122, 82, 0.18);
+  /* Barra do navegador (<meta name="theme-color">): verde do cabeçalho no claro */
+  --browser-bar: #0f3d2e;
+}
+
+[data-theme='dark'] {
+  --bg-page: #0b1411;
+  --surface: #14201b;
+  --surface-alt: #1a2822;
+  --mint-soft: #173a2d;
+  --border: #24332c;
+  --border-strong: #2f4139;
+  --divider: #1f2d27;
+  --text: #e6efea;
+  --title: #e3f1e9;
+  --text-muted: #a3b5ab;
+  --text-faint: #7d9086;
+  --accent: #5cc995;
+  --accent-text: #6fd3a2;
+  --warning-bg: #3a2316;
+  --warning-text: #f7b98a;
+  --success-bg: #173a2d;
+  --success-text: #9fe1cb;
+  --status-ok: #4fc38a;
+  --status-fail: #f08a4b;
+  --shadow: rgba(0, 0, 0, 0.55);
+  --focus-ring: rgba(159, 225, 203, 0.28);
+  --browser-bar: #0b1411;
+}
+
+@theme inline {
+  --color-page: var(--bg-page);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-mint-soft: var(--mint-soft);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-divider: var(--divider);
+  --color-ink: var(--text);
+  --color-title: var(--title);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-warning: var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-success: var(--success-bg);
+  --color-success-text: var(--success-text);
+  --color-status-ok: var(--status-ok);
+  --color-status-fail: var(--status-fail);
+  --color-shadow: var(--shadow);
+  --color-focus: var(--focus-ring);
+}
+
+@theme {
+  /* Marca: fixa nos dois temas (cabeçalho, rodapé e cards de destaque) */
+  --color-brand: #0f3d2e;
+  --color-mint: #9fe1cb;
+
+  --font-display: 'Bricolage Grotesque Variable', sans-serif;
+  --font-sans: 'Instrument Sans Variable', system-ui, sans-serif;
+
+  --radius-card: 24px;
+  --radius-list: 20px;
+  --radius-control: 12px;
+}
+
+@layer base {
+  body {
+    @apply bg-page font-sans text-ink;
+  }
+}

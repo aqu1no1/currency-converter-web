@@ -9,6 +9,22 @@
     <meta name="theme-color" content="#0F3D2E" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Converter</title>
+    <script>
+      // Aplica o tema salvo antes do React carregar, para não piscar o tema errado.
+      // Mesma regra do ThemeProvider (chave '@converter/theme').
+      (function () {
+        var scheme = 'system';
+        try {
+          scheme = localStorage.getItem('@converter/theme') || 'system';
+        } catch (e) {}
+        var dark =
+          scheme === 'dark' ||
+          (scheme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

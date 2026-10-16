@@ -38,8 +38,10 @@ export function LanguageSwitcher() {
             aria-pressed={isActive}
             onClick={() => void setLanguage(language)}
             className={cn(
-              'rounded-md px-2 py-1 text-sm font-semibold',
-              isActive ? 'bg-black text-white' : 'opacity-70 hover:opacity-100',
+              'rounded-control px-2 py-1 text-sm font-semibold',
+              isActive
+                ? 'bg-brand text-white dark:bg-mint dark:text-brand'
+                : 'text-muted hover:text-ink',
             )}
           >
             {SHORT_LABELS[language]}

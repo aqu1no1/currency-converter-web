@@ -9,6 +9,12 @@ export const nav = {
     en: 'Inglés',
     es: 'Español',
   },
+  theme: 'Tema',
+  themes: {
+    light: 'Claro',
+    dark: 'Oscuro',
+    system: 'Automático',
+  },
   links: {
     home: 'Inicio',
     converter: 'Conversor',
