@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ButtonLink } from '@components/buttons/ButtonLink';
 import { Container } from '@components/layout/Container';
+import { Logo } from '@components/logo/Logo';
 import { ROUTES } from '@constants/routes.constants';
 import { usePageMeta } from '@hooks/usePageMeta';
 
@@ -11,6 +12,7 @@ export default function NotFoundPage() {
 
   return (
     <Container className="flex flex-1 flex-col items-center justify-center gap-7 py-24 text-center">
+      <Logo variant="mark" decorative className="size-16" />
       <div className="flex max-w-xl flex-col gap-3">
         <span className="text-sm font-semibold tracking-widest text-accent-text uppercase">
           {t('errors.notFound.label')}

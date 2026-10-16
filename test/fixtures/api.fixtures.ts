@@ -51,6 +51,26 @@ export const historyFixture = {
   ],
 };
 
+export const historyUsdBrlFixture = {
+  from: 'USD',
+  to: 'BRL',
+  history: [
+    { date: '2026-09-01', rate: 5 },
+    { date: '2026-09-10', rate: 4.8 },
+    { date: '2026-09-20', rate: 5.6 },
+    { date: '2026-09-28', rate: 5.5 },
+  ],
+};
+
+export const historyBrlUsdFixture = {
+  from: 'BRL',
+  to: 'USD',
+  history: [
+    { date: '2026-09-01', rate: 0.2 },
+    { date: '2026-09-28', rate: 0.18 },
+  ],
+};
+
 export const syncStatusFixture = {
   lastRun: {
     type: 'DAILY',

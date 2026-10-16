@@ -43,3 +43,38 @@ export function formatDate(value: Date | string | number, language = currentLang
     timeZone: 'UTC',
   }).format(toDate(value));
 }
+
+export function formatShortDate(value: Date | string | number, language = currentLanguage()) {
+  return new Intl.DateTimeFormat(language, {
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: 'UTC',
+  }).format(toDate(value));
+}
+
+export function formatDateTime(value: Date | string | number, language = currentLanguage()) {
+  return new Intl.DateTimeFormat(language, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(toDate(value));
+}
+
+export function formatTime(value: Date | string | number, language = currentLanguage()) {
+  return new Intl.DateTimeFormat(language, { hour: '2-digit', minute: '2-digit' }).format(
+    toDate(value),
+  );
+}
+
+export function formatInteger(value: number, language = currentLanguage()) {
+  return new Intl.NumberFormat(language, { maximumFractionDigits: 0 }).format(value);
+}
+
+export function formatPercent(value: number, language = currentLanguage()) {
+  return new Intl.NumberFormat(language, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}

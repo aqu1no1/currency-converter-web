@@ -18,6 +18,9 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Página Conversor: valor com vírgula ou ponto, moedas De e Para com botão de inverter, resultado com as taxas direta e inversa e a data da cotação, conversões frequentes e link compartilhável com o valor e as moedas.
 - Página Cotações do dia: escolha da moeda base, tabela com quanto 1 unidade vale em cada moeda e o inverso, e clique na linha para abrir o histórico do par.
 - Avisos quando a API está fora do ar, quando as cotações ainda não foram sincronizadas e quando a última sincronização falhou.
+- Página Histórico: moedas De e Para com inverter, períodos de 7 dias, 30 dias e 1 ano, gráfico de área nas cores do tema, variação no período e os valores de início, mínima, máxima e mais recente.
+- Página Status da sincronização: última sincronização, data das cotações disponíveis, histórico desde 2000 e a tabela de execuções com o detalhe das falhas, com o botão Atualizar.
+- Aviso de histórico vazio no período e página de erro inesperado (500) quando uma página quebra, com cabeçalho e rodapé visíveis.
 
 ### Fixed
 

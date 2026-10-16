@@ -19,6 +19,13 @@ export const errors = {
     syncFailed:
       '<strong>The last update failed.</strong> The rates below are from {{date}} and will be updated on the next sync.',
   },
+  unexpectedError: {
+    label: 'Unexpected error',
+    title: 'Something went wrong',
+    description:
+      'We had a problem opening this page. Try again; if it keeps happening, check the sync status.',
+    goHome: 'Go to home',
+  },
   notFound: {
     label: 'Error 404',
     title: 'Page not found',
