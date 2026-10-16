@@ -1,12 +1,12 @@
-import { common } from './common';
-import { converter } from './converter';
-import { currencies } from './currencies';
-import { errors } from './errors';
-import { history } from './history';
-import { home } from './home';
-import { nav } from './nav';
-import { rates } from './rates';
-import { status } from './status';
+import { common } from '@locales/pt-BR/common';
+import { converter } from '@locales/pt-BR/converter';
+import { currencies } from '@locales/pt-BR/currencies';
+import { errors } from '@locales/pt-BR/errors';
+import { history } from '@locales/pt-BR/history';
+import { home } from '@locales/pt-BR/home';
+import { nav } from '@locales/pt-BR/nav';
+import { rates } from '@locales/pt-BR/rates';
+import { status } from '@locales/pt-BR/status';
 
 export const ptBR = {
   common,

@@ -2,6 +2,7 @@ import { waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { useLatestRates } from '@hooks/useLatestRates';
+import { ExchangeRateService } from '@services/exchange-rate.service';
 import { latestRatesFixture } from '@test/fixtures/api.fixtures';
 import { createFakeApiService } from '@test/utils/fake-api.service';
 import { renderHookWithProviders } from '@test/utils/render-with-providers';
@@ -9,9 +10,12 @@ import { renderHookWithProviders } from '@test/utils/render-with-providers';
 describe('useLatestRates', () => {
   it('returns the latest rates of the base currency', async () => {
     const api = createFakeApiService();
-    api.get.mockResolvedValueOnce(latestRatesFixture);
+    api.get.mockResolvedValueOnce({ data: latestRatesFixture });
 
-    const { result } = renderHookWithProviders(() => useLatestRates('BRL'), { api });
+    const { result } = renderHookWithProviders(
+      () => useLatestRates(new ExchangeRateService(api), 'BRL'),
+      { api },
+    );
 
     await waitFor(() => expect(result.current.data).toEqual(latestRatesFixture));
     expect(api.get).toHaveBeenCalledWith('/exchange-rates/latest/BRL', {
@@ -25,13 +29,14 @@ describe('useLatestRates', () => {
     api.get.mockImplementation(
       (url, options) =>
         new Promise((resolve) => {
-          signals.push(options!.signal!);
-          if (url.endsWith('/USD')) resolve({ ...latestRatesFixture, base: 'USD' });
+          signals.push(options!.signal as AbortSignal);
+          if (url.endsWith('/USD')) resolve({ data: { ...latestRatesFixture, base: 'USD' } });
         }),
     );
 
+    const service = new ExchangeRateService(api);
     const { result, rerender } = renderHookWithProviders(
-      ({ base }: { base: string }) => useLatestRates(base),
+      ({ base }: { base: string }) => useLatestRates(service, base),
       { api, initialProps: { base: 'BRL' } },
     );
     await waitFor(() => expect(signals).toHaveLength(1));

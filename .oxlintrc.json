@@ -11,7 +11,18 @@
     "typescript/no-floating-promises": "error",
     "react/rules-of-hooks": "error",
     "react/exhaustive-deps": "warn",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["./*", "../*"],
+            "message": "Use os aliases (@components/..., @utils/...) em vez de caminhos relativos."
+          }
+        ]
+      }
+    ]
   },
   "ignorePatterns": ["node_modules", "dist", "coverage"]
 }

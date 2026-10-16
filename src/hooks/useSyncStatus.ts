@@ -1,24 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
-import { useApi } from '@contexts/ApiProvider';
-import { SyncService } from '@services/sync.service';
+import type { SyncService } from '@services/sync.service';
 
 export const syncStatusQueryKey = ['sync', 'status'] as const;
 
 /**
- * Busca o status da sincronização das cotações na API (`GET /sync/status`).
+ * Busca a última sincronização e a data das cotações mais recentes (`GET /sync/status`).
  *
  * @example
  * ```tsx
- * const sync = useSyncStatus();
- * const lastRun = sync.data?.lastRun ?? null;
+ * const syncStatus = useSyncStatus(syncService);
  * ```
  */
-export function useSyncStatus() {
-  const api = useApi();
-  const syncService = useMemo(() => new SyncService(api), [api]);
-
+export function useSyncStatus(syncService: SyncService) {
   return useQuery({
     queryKey: syncStatusQueryKey,
     queryFn: ({ signal }) => syncService.status(signal),

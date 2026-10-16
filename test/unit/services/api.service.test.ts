@@ -1,5 +1,3 @@
-import { afterEach, describe, expect, it } from 'vitest';
-
 import {
   AxiosError,
   type AxiosAdapter,
@@ -7,10 +5,11 @@ import {
   type InternalAxiosRequestConfig,
   isCancel,
 } from 'axios';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { ApiError } from '@interfaces/api-error.interface';
 import { i18n } from '@lib/i18n';
-import { ApiService, toApiError } from '@services/api.service';
+import { apiClient, toApiError } from '@services/api.service';
 
 function respond(status: number, data: unknown): AxiosAdapter {
   return async (config) => {
@@ -30,6 +29,13 @@ function fail(code: string): AxiosAdapter {
   };
 }
 
+const defaultAdapter = apiClient.defaults.adapter;
+
+function withAdapter(adapter: AxiosAdapter) {
+  apiClient.defaults.adapter = adapter;
+  return apiClient;
+}
+
 async function catchError(promise: Promise<unknown>): Promise<unknown> {
   try {
     await promise;
@@ -39,24 +45,23 @@ async function catchError(promise: Promise<unknown>): Promise<unknown> {
   throw new Error('expected the request to fail');
 }
 
-describe('ApiService', () => {
+describe('apiClient', () => {
   afterEach(async () => {
+    apiClient.defaults.adapter = defaultAdapter;
     await i18n.changeLanguage('pt-BR');
   });
 
-  it('returns only the response data', async () => {
-    const api = new ApiService({ adapter: respond(200, { ok: true }) });
+  it('returns the response with the data', async () => {
+    const api = withAdapter(respond(200, { ok: true }));
 
-    await expect(api.get('/health')).resolves.toEqual({ ok: true });
+    await expect(api.get('/health')).resolves.toMatchObject({ data: { ok: true } });
   });
 
   it('sends the app language in Accept-Language', async () => {
     let sent: InternalAxiosRequestConfig | undefined;
-    const api = new ApiService({
-      adapter: async (config) => {
-        sent = config;
-        return { data: null, status: 200, statusText: '', headers: {}, config };
-      },
+    const api = withAdapter(async (config) => {
+      sent = config;
+      return { data: null, status: 200, statusText: '', headers: {}, config };
     });
 
     await i18n.changeLanguage('en');
@@ -67,11 +72,9 @@ describe('ApiService', () => {
 
   it('passes params and the timeout of 10 seconds', async () => {
     let sent: InternalAxiosRequestConfig | undefined;
-    const api = new ApiService({
-      adapter: async (config) => {
-        sent = config;
-        return { data: null, status: 200, statusText: '', headers: {}, config };
-      },
+    const api = withAdapter(async (config) => {
+      sent = config;
+      return { data: null, status: 200, statusText: '', headers: {}, config };
     });
 
     await api.get('/exchange-rates/convert', { params: { from: 'EUR', to: 'BRL', amount: '10' } });
@@ -81,13 +84,13 @@ describe('ApiService', () => {
   });
 
   it('turns a NestJS error with a text message into an ApiError', async () => {
-    const api = new ApiService({
-      adapter: respond(404, {
+    const api = withAdapter(
+      respond(404, {
         statusCode: 404,
         error: 'Not Found',
         message: 'Moeda não suportado(a)',
       }),
-    });
+    );
 
     const error = await catchError(api.get('/exchange-rates/latest/XYZ'));
 
@@ -101,13 +104,13 @@ describe('ApiService', () => {
   });
 
   it('joins a NestJS validation message list into one text', async () => {
-    const api = new ApiService({
-      adapter: respond(400, {
+    const api = withAdapter(
+      respond(400, {
         statusCode: 400,
         error: 'Bad Request',
         message: ['start precisa estar no formato AAAA-MM-DD', 'start não é uma data válida'],
       }),
-    });
+    );
 
     const error = await catchError(api.get('/exchange-rates/history'));
 
@@ -118,13 +121,13 @@ describe('ApiService', () => {
   });
 
   it('marks server errors so they can be retried', async () => {
-    const api = new ApiService({
-      adapter: respond(503, {
+    const api = withAdapter(
+      respond(503, {
         statusCode: 503,
         error: 'Service Unavailable',
         message: 'Cotação indisponível',
       }),
-    });
+    );
 
     const error = (await catchError(api.get('/exchange-rates/latest/BRL'))) as ApiError;
 
@@ -132,7 +135,7 @@ describe('ApiService', () => {
   });
 
   it('uses a translated message when the body has none', async () => {
-    const api = new ApiService({ adapter: respond(500, 'Internal Server Error') });
+    const api = withAdapter(respond(500, 'Internal Server Error'));
 
     const error = await catchError(api.get('/sync/status'));
 
@@ -140,7 +143,7 @@ describe('ApiService', () => {
   });
 
   it('flags network errors with status 0 and a translated message', async () => {
-    const api = new ApiService({ adapter: fail('ERR_NETWORK') });
+    const api = withAdapter(fail('ERR_NETWORK'));
 
     const error = await catchError(api.get('/currencies'));
 
@@ -153,7 +156,7 @@ describe('ApiService', () => {
   });
 
   it('flags timeouts as network errors with their own message', async () => {
-    const api = new ApiService({ adapter: fail('ECONNABORTED') });
+    const api = withAdapter(fail('ECONNABORTED'));
 
     const error = await catchError(api.get('/currencies'));
 
@@ -161,7 +164,7 @@ describe('ApiService', () => {
   });
 
   it('lets cancellations through untouched', async () => {
-    const api = new ApiService({ adapter: respond(200, {}) });
+    const api = withAdapter(respond(200, {}));
     const controller = new AbortController();
     controller.abort();
 
@@ -169,10 +172,6 @@ describe('ApiService', () => {
 
     expect(isCancel(error)).toBe(true);
     expect(error).not.toBeInstanceOf(ApiError);
-  });
-
-  it('keeps a single shared instance', () => {
-    expect(ApiService.getInstance()).toBe(ApiService.getInstance());
   });
 
   it('wraps unknown errors as unexpected', () => {

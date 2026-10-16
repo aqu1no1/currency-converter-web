@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
-import { useApi } from '@contexts/ApiProvider';
-import { ExchangeRateService } from '@services/exchange-rate.service';
+import type { ExchangeRateService } from '@services/exchange-rate.service';
 
 export function latestRatesQueryKey(base: string) {
   return ['exchange-rates', 'latest', base] as const;
@@ -15,14 +13,11 @@ export function latestRatesQueryKey(base: string) {
  *
  * @example
  * ```tsx
- * const latest = useLatestRates('BRL');
+ * const latest = useLatestRates(exchangeRateService, 'BRL');
  * const euroRate = latest.data?.rates.EUR;
  * ```
  */
-export function useLatestRates(base: string) {
-  const api = useApi();
-  const exchangeRateService = useMemo(() => new ExchangeRateService(api), [api]);
-
+export function useLatestRates(exchangeRateService: ExchangeRateService, base: string) {
   return useQuery({
     queryKey: latestRatesQueryKey(base),
     queryFn: ({ signal }) => exchangeRateService.latest(base, signal),

@@ -6,21 +6,26 @@ import { LanguageSwitcher } from '@components/language/LanguageSwitcher';
 import { STORAGE_KEYS } from '@constants/storage';
 
 describe('LanguageSwitcher', () => {
-  it('marks the active language with aria-pressed', () => {
+  it('shows the current language and the next one in the label', () => {
     render(<LanguageSwitcher />);
 
-    expect(screen.getByRole('button', { name: 'PT' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: 'EN' })).toHaveAttribute('aria-pressed', 'false');
+    const button = screen.getByRole('button', { name: 'Idioma: Português. Mudar para Inglês' });
+    expect(button).toHaveTextContent('PT');
   });
 
-  it('switches the language, the texts and saves the choice', async () => {
+  it('cycles PT → EN → ES → PT and saves the choice', async () => {
     render(<LanguageSwitcher />);
-    expect(screen.getByRole('group', { name: 'Idioma' })).toBeInTheDocument();
+    const button = screen.getByRole('button');
 
-    await userEvent.click(screen.getByRole('button', { name: 'EN' }));
-
-    expect(screen.getByRole('group', { name: 'Language' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'EN' })).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(button);
+    expect(button).toHaveTextContent('EN');
+    expect(button).toHaveAccessibleName('Language: English. Switch to Spanish');
     expect(localStorage.getItem(STORAGE_KEYS.language)).toBe('en');
+
+    await userEvent.click(button);
+    expect(button).toHaveTextContent('ES');
+
+    await userEvent.click(button);
+    expect(button).toHaveTextContent('PT');
   });
 });

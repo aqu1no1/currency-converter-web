@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@components/icon/Icon';
 import type { IconName } from '@constants/icons';
 import { THEME_SCHEMES, type ThemeScheme, useTheme } from '@theme/ThemeProvider';
-import { cn } from '@utils/cn.util';
 
 const SCHEME_ICONS: Record<ThemeScheme, IconName> = {
   light: 'themeLight',
@@ -11,10 +10,15 @@ const SCHEME_ICONS: Record<ThemeScheme, IconName> = {
   system: 'appearance',
 };
 
+function nextScheme(scheme: ThemeScheme): ThemeScheme {
+  return THEME_SCHEMES[(THEME_SCHEMES.indexOf(scheme) + 1) % THEME_SCHEMES.length]!;
+}
+
 /**
- * Botões para escolher o tema do site (claro, escuro ou automático).
+ * Botão único de tema no cabeçalho: mostra o ícone do tema atual (claro, escuro
+ * ou automático) e, a cada clique, passa para o próximo.
  *
- * O tema ativo fica com `aria-pressed`. "Automático" segue o tema do sistema.
+ * "Automático" segue o tema do sistema.
  *
  * @example
  * ```tsx
@@ -23,33 +27,22 @@ const SCHEME_ICONS: Record<ThemeScheme, IconName> = {
  */
 export function ThemeSwitcher() {
   const { t } = useTranslation();
-  const { scheme: activeScheme, setScheme } = useTheme();
+  const { scheme, setScheme } = useTheme();
+  const next = nextScheme(scheme);
+  const label = t('nav.themeButton', {
+    current: t(`nav.themes.${scheme}`),
+    next: t(`nav.themes.${next}`),
+  });
 
   return (
-    <div role="group" aria-label={t('nav.theme')} className="flex gap-1">
-      {THEME_SCHEMES.map((scheme) => {
-        const isActive = scheme === activeScheme;
-        const label = t(`nav.themes.${scheme}`);
-
-        return (
-          <button
-            key={scheme}
-            type="button"
-            aria-label={label}
-            title={label}
-            aria-pressed={isActive}
-            onClick={() => setScheme(scheme)}
-            className={cn(
-              'rounded-control p-1.5',
-              isActive
-                ? 'bg-brand text-white dark:bg-mint dark:text-brand'
-                : 'text-muted hover:text-ink',
-            )}
-          >
-            <Icon name={SCHEME_ICONS[scheme]} size={18} />
-          </button>
-        );
-      })}
-    </div>
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      onClick={() => setScheme(next)}
+      className="flex min-h-11 min-w-11 items-center justify-center rounded-chip border border-white/35 text-white transition-colors hover:bg-white/12"
+    >
+      <Icon name={SCHEME_ICONS[scheme]} size={20} />
+    </button>
   );
 }

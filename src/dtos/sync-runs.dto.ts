@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { dateTimeSchema } from './common.dto';
-import { syncRunStateSchema, syncTypeSchema } from './sync-status.dto';
+import { dateTimeSchema, paginatedSchema } from '@dtos/common.dto';
+import { syncRunStateSchema, syncTypeSchema } from '@dtos/sync-status.dto';
 
 export const syncRunSchema = z.object({
   id: z.uuid(),
@@ -13,13 +13,7 @@ export const syncRunSchema = z.object({
   errorMessage: z.string().nullish(),
 });
 
-export const syncRunsPageSchema = z.object({
-  data: z.array(syncRunSchema),
-  total: z.number().int().nonnegative(),
-  page: z.number().int().positive(),
-  perPage: z.number().int().positive(),
-  totalPages: z.number().int().nonnegative(),
-});
+export const syncRunsPageSchema = paginatedSchema(syncRunSchema);
 
 export type SyncRunDto = z.infer<typeof syncRunSchema>;
 

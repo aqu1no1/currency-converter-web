@@ -43,6 +43,7 @@ Toda variável nova entra no `.env.example` e no `src/types/env.d.ts`. Variávei
 ```
 src/
 ├── pages/        # uma pasta por página; componentes só da página em pages/<pagina>/components/
+├── routes/       # AppRoutes (caminhos em constants/routes.constants.ts)
 ├── components/   # componentes usados em duas páginas ou mais, por grupo
 ├── contexts/     # providers do React (ApiProvider)
 ├── hooks/        # hooks de dados e de UI

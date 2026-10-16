@@ -27,7 +27,7 @@ export const convertFixture = {
 export const latestRatesFixture = {
   base: 'BRL',
   date: '2026-09-28',
-  rates: { USD: 0.188, EUR: 0.169741, JPY: 30.32 },
+  rates: { USD: 0.2, EUR: 0.16, GBP: 0.125, JPY: 30.32, ARS: 250 },
 };
 
 export const historyFixture = {

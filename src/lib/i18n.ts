@@ -34,7 +34,7 @@ function saveLanguage(language: Language) {
   try {
     localStorage.setItem(STORAGE_KEYS.language, language);
   } catch {
-    // Sem localStorage (modo privado ou bloqueado): a escolha vale só nesta visita.
+    return;
   }
 }
 

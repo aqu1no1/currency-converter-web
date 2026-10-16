@@ -1,29 +1,33 @@
-import { type SyncRunsPageDto, syncRunsPageSchema } from '@dtos/sync-runs.dto';
+import type { AxiosInstance } from 'axios';
+
+import { type SyncRunDto, syncRunsPageSchema } from '@dtos/sync-runs.dto';
 import { type SyncStatusDto, syncStatusSchema } from '@dtos/sync-status.dto';
-import type { HttpClient } from '@interfaces/http-client.interface';
+import type {
+  IApiService,
+  PaginatedResponse,
+  PaginationOptions,
+} from '@interfaces/api-service.interface';
 import { parseResponse } from '@utils/parse-response.util';
 
-export type SyncRunsParams = {
-  page?: number;
-  perPage?: number;
-};
+export class SyncService implements IApiService<SyncRunDto> {
+  public readonly baseUrl = '/sync';
 
-export class SyncService {
-  private readonly baseUrl = '/sync';
+  private readonly api: AxiosInstance;
 
-  private readonly api: HttpClient;
-
-  constructor(api: HttpClient) {
+  constructor(api: AxiosInstance) {
     this.api = api;
   }
 
-  async status(signal?: AbortSignal): Promise<SyncStatusDto> {
-    const data = await this.api.get(`${this.baseUrl}/status`, { signal });
-    return parseResponse(syncStatusSchema, data);
+  async get(
+    options: PaginationOptions = {},
+    signal?: AbortSignal,
+  ): Promise<PaginatedResponse<SyncRunDto>> {
+    const response = await this.api.get<unknown>(this.baseUrl, { params: options, signal });
+    return parseResponse(syncRunsPageSchema, response.data);
   }
 
-  async list(params: SyncRunsParams = {}, signal?: AbortSignal): Promise<SyncRunsPageDto> {
-    const data = await this.api.get(this.baseUrl, { params, signal });
-    return parseResponse(syncRunsPageSchema, data);
+  async status(signal?: AbortSignal): Promise<SyncStatusDto> {
+    const response = await this.api.get<unknown>(`${this.baseUrl}/status`, { signal });
+    return parseResponse(syncStatusSchema, response.data);
   }
 }

@@ -1,21 +1,42 @@
+import type { AxiosInstance } from 'axios';
 import { createContext, type ReactNode, useContext } from 'react';
 
-import type { HttpClient } from '@interfaces/http-client.interface';
-import { ApiService } from '@services/api.service';
+import { apiClient } from '@services/api.service';
 
-const ApiContext = createContext<HttpClient | null>(null);
+const ApiContext = createContext<AxiosInstance | null>(null);
 
 type ApiProviderProps = {
-  api?: HttpClient;
+  /** Axios usado pelos services; nos testes entra um Axios falso. */
+  api?: AxiosInstance;
 
   children: ReactNode;
 };
 
-export function ApiProvider({ api = ApiService.getInstance(), children }: ApiProviderProps) {
+/**
+ * Entrega o Axios do site (`apiClient`, criado uma vez só) para as páginas
+ * criarem os seus services.
+ *
+ * @example
+ * ```tsx
+ * <ApiProvider>
+ *   <App />
+ * </ApiProvider>
+ * ```
+ */
+export function ApiProvider({ api = apiClient, children }: ApiProviderProps) {
   return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>;
 }
 
-export function useApi(): HttpClient {
+/**
+ * Devolve o Axios do `ApiProvider`. A página cria o service com ele:
+ *
+ * @example
+ * ```tsx
+ * const api = useApi();
+ * const syncService = useMemo(() => new SyncService(api), [api]);
+ * ```
+ */
+export function useApi(): AxiosInstance {
   const api = useContext(ApiContext);
 
   if (!api) {
