@@ -1,11 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
+import { ThemeProvider } from '@theme/ThemeProvider';
+
 import { App } from '../../src/App';
 
 describe('App', () => {
   it('renders the main landmark', () => {
-    render(<App />);
+    render(
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>,
+    );
 
     expect(screen.getByRole('main')).toBeInTheDocument();
   });

@@ -12,3 +12,4 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e 
 - Qualidade e CI: oxlint, oxfmt, Vitest com Testing Library, workflows de CI e de release no GitHub Actions e template de PR.
 - Textos em português, inglês e espanhol, com o seletor PT / EN / ES. O idioma segue a escolha salva ou o idioma do navegador, e valores, taxas e datas são formatados no idioma ativo.
 - Comunicação com a API: moedas, conversão, últimas cotações, histórico e status da sincronização, com respostas validadas e mensagens de erro no idioma do site.
+- Tema claro e escuro com o seletor claro / escuro / automático no topo. O automático segue o tema do sistema, a escolha fica salva e o tema certo já aparece ao abrir o site, sem piscar.
