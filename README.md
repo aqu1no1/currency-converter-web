@@ -12,6 +12,12 @@ O site consome a [currency-converter-api](https://github.com/aqu1no1/currency-co
 
 Moedas suportadas: USD, BRL, EUR, GBP, JPY, CAD, AUD, CHF, CNY e ARS. Textos em português, inglês e espanhol, com valores, taxas e datas formatados no idioma ativo.
 
+## Demonstração
+
+<div align="center">
+  <img src="docs/assets/demo.gif" width="680" alt="Demonstração do site" />
+</div>
+
 ## Stack
 
 <p>
